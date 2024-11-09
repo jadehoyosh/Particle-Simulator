@@ -1,7 +1,7 @@
 import pygame
 import random
 import math
-from particle import Particle
+from particles.particle import Particle
 
 
 def findParticle(particles, x, y):
