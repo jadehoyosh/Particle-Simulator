@@ -4,7 +4,7 @@ import math
 from particles.particle import Particle
 from movement.collisions import Collision
 
-(width, height) = (1920, 1080)
+(width, height) = (1280, 720)
 background_color = (255, 255, 255)
 
 pygame.init()
