@@ -1,25 +1,27 @@
 import pygame
 import json
+import os
 
 class SettingsMenu:
     def __init__(self, screen):
-        self.resolutions = [(800, 600), (1024, 768), (1920, 1080)]
-        self.selected_resolution = self.load_settings()
         self.screen = screen
+        self.settings_file_path = os.path.join(os.path.dirname(__file__), "settings.json")  # Define path first
+        self.resolutions = [(800, 600), (1024, 768), (1920, 1080)]
+        self.selected_resolution = self.load_settings()  # Now it's safe to call load_settings
         self.font = pygame.font.Font(None, 36)
         self.WHITE = (255, 255, 255)
         self.BLACK = (0, 0, 0)
 
     def load_settings(self):
         try:
-            with open("settings.json", "r") as f:
+            with open(self.settings_file_path, "r") as f:
                 settings = json.load(f)
                 return tuple(settings.get("resolution", self.resolutions[0]))
         except FileNotFoundError:
             return self.resolutions[0]
 
     def save_settings(self):
-        with open("settings.json", "w") as f:
+        with open(self.settings_file_path, "w") as f:
             json.dump({"resolution": self.selected_resolution}, f)
         
     def display_menu(self):

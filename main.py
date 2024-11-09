@@ -1,6 +1,7 @@
 import pygame
 import random
 import math
+import os
 from particles.particle import Particle
 from movement.collisions import Collision
 from userInterface.settings_menu import SettingsMenu
