@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 from particles.particle import Particle
+from movement.collisions import Collision
 
 
 def findParticle(particles, x, y):
@@ -9,39 +10,6 @@ def findParticle(particles, x, y):
         if math.hypot(p.x-x, p.y-y) <= p.size:
             return p
     return None
-
-def checkCollision(p1, p2):
-    dx = p1.x - p2.x
-    dy = p1.y - p2.y
-    distance = math.hypot(dx, dy)
-    return distance < (p1.size + p2.size)
-
-def handleCollision(p1, p2):
-    dx = p1.x - p2.x
-    dy = p1.y - p2.y
-    distance = math.hypot(dx, dy)
-    overlap = 0.5 * (distance - p1.size - p2.size)
-
-    # Separate the particles to avoid overlap
-    p1.x -= overlap * (dx / distance)
-    p1.y -= overlap * (dy / distance)
-    p2.x += overlap * (dx / distance)
-    p2.y += overlap * (dy / distance)
-
-    # Calculate the collision angle
-    collision_angle = math.atan2(dy, dx)
-
-    # Swap speeds along the collision vector
-    speed1 = p1.speed
-    speed2 = p2.speed
-    angle1 = p1.angle
-    angle2 = p2.angle
-
-    # Calculate the new speeds and angles after the collision
-    p1.angle = 2 * collision_angle - angle1
-    p2.angle = 2 * collision_angle - angle2
-    p1.speed = speed2
-    p2.speed = speed1
 
 (width, height) = (1280, 720)
 background_color = (255, 255, 255)
@@ -107,13 +75,15 @@ while running:
 
     screen.fill(background_color)
     
-    
+
     for i, particle in enumerate(my_particles):
         particle.move()
         particle.bounce()
         for particle2 in my_particles[i+1:]:
-            if checkCollision(particle, particle2):
-                handleCollision(particle, particle2)
+            collision = Collision(particle, particle2)
+
+            if collision.checkCollision():
+                collision.handleCollision()
         particle.display(screen)
 
     # Render and display the particle count
