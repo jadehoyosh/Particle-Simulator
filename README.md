@@ -1,0 +1,1 @@
+This project shows a simple application on how to develop a Physics simulation using basic trigonmetry and Pygame
