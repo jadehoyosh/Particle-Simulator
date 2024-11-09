@@ -4,14 +4,7 @@ import math
 from particles.particle import Particle
 from movement.collisions import Collision
 
-
-def findParticle(particles, x, y):
-    for p in particles:
-        if math.hypot(p.x-x, p.y-y) <= p.size:
-            return p
-    return None
-
-(width, height) = (1280, 720)
+(width, height) = (1920, 1080)
 background_color = (255, 255, 255)
 
 pygame.init()
@@ -38,7 +31,7 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             (mouseX, mouseY) = pygame.mouse.get_pos()
-            selected_particle = findParticle(my_particles, mouseX, mouseY)
+            selected_particle = Particle.findParticle(my_particles, mouseX, mouseY)
         elif event.type == pygame.MOUSEBUTTONUP:
             selected_particle = None
         elif event.type == pygame.KEYDOWN:

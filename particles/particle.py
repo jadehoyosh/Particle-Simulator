@@ -59,3 +59,10 @@ class Particle:
             self.y = 2 * self.size - self.y
             self.angle = math.pi - self.angle
             self.speed *= elasticity
+
+    @staticmethod
+    def findParticle(particles, mouseX, mouseY):
+        for p in particles:
+            if math.hypot(p.x-mouseX, p.y-mouseY) <= p.size:
+                return p
+        return None 
